@@ -8,7 +8,7 @@ import java.time.Duration;
 public class BasePage {
     WebDriver driver;
 
-    public BasePage(WebDriver driver){
+    public BasePage(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -17,8 +17,3 @@ public class BasePage {
     }
 }
 
-class InvalidInput extends RuntimeException {
-    public InvalidInput(String message) {
-        super(message);
-    }
-}
