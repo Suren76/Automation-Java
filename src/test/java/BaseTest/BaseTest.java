@@ -3,11 +3,13 @@ package BaseTest;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 import static java.lang.Thread.sleep;
 
@@ -16,26 +18,60 @@ public class BaseTest {
 
     @BeforeSuite
     public void setup() {
-//        WebDriverManager.chromedriver().setup();
+        WebDriverManager.chromedriver().browserVersion(getChromeVersion()).setup();
     }
 
     @BeforeClass
-    public void configuringBeforeRun(){
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");
-//        options.addArguments("start-maximized");
-
-        driver = new ChromeDriver(options);
+    public void configuringBeforeRun() {
+        driver = new ChromeDriver();
     }
 
     @AfterClass
     public void afterTestEnds() throws InterruptedException {
-        sleep(2*1000);
+        sleep(2 * 1000);
         driver.close();
     }
 
     @AfterSuite
-    public void TheEnd(){
+    public void TheEnd() {
         driver.quit();
     }
+
+    static String getChromeVersion() {
+        String version = "";
+        String osName = System.getProperty("os.name").toLowerCase();
+
+        if (osName.startsWith("linux")) {
+            version = executeCommand("google-chrome --version").split(" ")[2].split("\\.")[0];
+        } else if (osName.startsWith("windows")) {
+            version = executeCommand("google-chrome.exe --version").split(" ")[2].split("\\.")[0];
+        } else if (osName.startsWith("macos")) {
+            System.out.println("not exist functionality");
+            System.exit(36456);
+        }
+
+        return version;
+    }
+
+    static private String executeCommand(String command) {
+        StringBuffer output = new StringBuffer();
+
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec(command);
+            p.waitFor();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                output.append(line + "\n");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return output.toString();
+    }
+
 }

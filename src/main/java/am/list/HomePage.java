@@ -19,32 +19,5 @@ public class HomePage extends BasePage {
         driver.get(HOME_PAGE_URL);
     }
 
-    public void changeLanguage(String lang) {
-        lang = lang.toLowerCase(Locale.ROOT).substring(0, 2);
-        if (!(lang.equals("en") || lang.equals("ru") || lang.equals("am")))
-            throw new InvalidInput("Invalid input: " + lang);
-
-        WebElement langToggle = driver.findElement(By.xpath("//div[@id='lbar']"));
-        if (langToggle.getAttribute("class").equals(lang)) {
-            return;
-        }
-
-        langToggle.click();
-
-        shortWait().until(ExpectedConditions.attributeToBe(By.id("lmenu"), "style", "display: block;"));
-
-        driver.findElement(By.xpath("//div[@id='lbar']//a[contains(@href, '" + lang + "')]")).click();
-    }
-
-    public ResultPage selectCategory(String categoryMenu, String subCategory) {
-        WebElement globalCategoryItem = driver.findElement(By.xpath("//div[@id='menu']/div/div/a[text()='" + categoryMenu + "']/.."));
-        new Actions(driver).moveToElement(globalCategoryItem).build().perform();
-
-        WebElement categoryToSelect = globalCategoryItem.findElement(By.xpath(".//a[text()='" + subCategory + "']"));
-        shortWait().until(ExpectedConditions.elementToBeClickable(By.xpath(".//a[text()='" + subCategory + "']")));
-
-        categoryToSelect.click();
-        return new ResultPage(driver);
-    }
 }
 
