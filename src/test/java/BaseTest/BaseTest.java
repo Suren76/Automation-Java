@@ -11,15 +11,13 @@ import org.testng.annotations.BeforeSuite;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import static java.lang.Thread.sleep;
-
 public class BaseTest {
     public WebDriver driver;
 
-//    @BeforeSuite
-//    public void setup() {
-//        WebDriverManager.chromedriver().browserVersion(getChromeVersion()).setup();
-//    }
+    @BeforeSuite
+    public void setup() {
+        WebDriverManager.chromedriver().browserVersion("chrome"+getChromeVersion()).setup();
+    }
 
     @BeforeClass
     public void configuringBeforeRun() {
