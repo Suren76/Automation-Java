@@ -16,7 +16,7 @@ public class BaseTest {
 
     @BeforeSuite
     public void setup() {
-        WebDriverManager.chromedriver().browserVersion("chrome"+getChromeVersion()).setup();
+        WebDriverManager.chromedriver().browserVersion("chrome%s".formatted(getChromeVersion())).setup();
     }
 
     @BeforeClass

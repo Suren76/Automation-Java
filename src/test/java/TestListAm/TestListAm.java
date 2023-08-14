@@ -43,7 +43,6 @@ public class TestListAm extends BaseTestListAm {
         for (WebElement item : items) {
             String itemDescription = item.findElement(By.xpath(".//div[@class='l' or contains(@class, 'l ')]")).getText();
             String label;
-            System.out.println(itemDescription);
 
             try {
                 label = item.findElement(By.xpath(".//div[@class='clabel']")).getText();
