@@ -16,10 +16,10 @@ import static java.lang.Thread.sleep;
 public class BaseTest {
     public WebDriver driver;
 
-    @BeforeSuite
-    public void setup() {
-        WebDriverManager.chromedriver().browserVersion(getChromeVersion()).setup();
-    }
+//    @BeforeSuite
+//    public void setup() {
+//        WebDriverManager.chromedriver().browserVersion(getChromeVersion()).setup();
+//    }
 
     @BeforeClass
     public void configuringBeforeRun() {
@@ -27,8 +27,7 @@ public class BaseTest {
     }
 
     @AfterClass
-    public void afterTestEnds() throws InterruptedException {
-        sleep(2 * 1000);
+    public void afterTestEnds() {
         driver.close();
     }
 

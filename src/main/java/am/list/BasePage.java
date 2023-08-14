@@ -1,9 +1,9 @@
 package am.list;
 
+import am.list.exceptions.InvalidInput;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -12,6 +12,8 @@ import java.util.Locale;
 
 public class BasePage {
     WebDriver driver;
+    final static String HOME_PAGE_URL = "https://www.list.am";
+    String footerLink = "//div[@id='pfooter']//div[@class='r']/a[text()='%s']";
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -23,13 +25,12 @@ public class BasePage {
 
     public void changeLanguage(String lang) {
         lang = lang.toLowerCase(Locale.ROOT).substring(0, 2);
-        if (!(lang.equals("en") || lang.equals("ru") || lang.equals("am")))
+        if (!(lang.equals("en") || lang.equals("ru") || lang.equals("am"))) {
             throw new InvalidInput("Invalid input: " + lang);
+        }
 
         WebElement langToggle = driver.findElement(By.xpath("//div[@id='lbar']"));
-        if (langToggle.getAttribute("class").equals(lang)) {
-            return;
-        }
+        if (langToggle.getAttribute("class").equals(lang)) return;
 
         langToggle.click();
 
@@ -38,15 +39,17 @@ public class BasePage {
         driver.findElement(By.xpath("//div[@id='lbar']//a[contains(@href, '%s')]".formatted(lang))).click();
     }
 
-    public ResultPage selectCategory(String categoryMenu, String subCategory) {
-        WebElement globalCategoryItem = driver.findElement(By.xpath("//div[@id='menu']/div/div/a[text()='%s']/..".formatted(categoryMenu)));
-        new Actions(driver).moveToElement(globalCategoryItem).build().perform();
-
-        WebElement categoryToSelect = globalCategoryItem.findElement(By.xpath(".//a[text()='%s']".formatted(subCategory)));
-        shortWait().until(ExpectedConditions.elementToBeClickable(categoryToSelect));
-
-        categoryToSelect.click();
-        return new ResultPage(driver);
+    void openHelp() {
+        driver.findElement(By.xpath(footerLink.formatted("Help"))).click();
     }
+
+    void openContactUs() {
+        driver.findElement(By.xpath(footerLink.formatted("ContactUs"))).click();
+    }
+
+    void openTermsOfService() {
+        driver.findElement(By.xpath(footerLink.formatted("TermsOfService"))).click();
+    }
+
 }
 

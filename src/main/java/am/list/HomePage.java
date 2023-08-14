@@ -1,15 +1,14 @@
 package am.list;
 
+import am.list.exceptions.InvalidInput;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.Locale;
 
-public class HomePage extends BasePage {
-    final static String HOME_PAGE_URL = "https://www.list.am";
+public class HomePage extends BasePage implements SelectCategoryBar {
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -17,6 +16,19 @@ public class HomePage extends BasePage {
 
     public void open() {
         driver.get(HOME_PAGE_URL);
+    }
+
+    public void popUpLangChoseMenu(String lang) {
+        lang = lang.toLowerCase(Locale.ROOT).substring(0, 2);
+        if (!(lang.equals("en") || lang.equals("ru") || lang.equals("am"))) {
+            throw new InvalidInput("Invalid input: " + lang);
+        }
+        shortWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='dlgLangSel']//a[@href='/%s/']".formatted(lang)))).click();
+    }
+
+    @Override
+    public ResultPage selectCategory(String categoryMenu, String subCategory) {
+        return selectCategory(driver, categoryMenu, subCategory);
     }
 
 }
