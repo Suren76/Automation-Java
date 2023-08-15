@@ -26,7 +26,7 @@ public class TestListAm extends BaseTestListAm {
     }
 
     @Test
-    void testCheckDummyItem() throws InterruptedException {
+    void testCheckDummyItem() {
         HomePage homePage = new HomePage(driver);
         homePage.open();
         if (homePage.shortWait().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("dlgLangSel"))).size() == 1)
@@ -36,9 +36,9 @@ public class TestListAm extends BaseTestListAm {
         resultPage.addFilterRadioButtonSelect("Agency");
 
         // add dummy element to check if the test works correctly
-//        resultPage.addDummyItem(driver.findElement(By.xpath("//div[@id='tp']//div[@class='gl']")));
+        resultPage.addDummyItem(driver.findElement(By.xpath("//div[@id='tp']//div[@class='gl']")));
 
-        List<WebElement> items = driver.findElements(By.xpath("//a[contains(@href, '/en/item/')]"));
+        List<WebElement> items = driver.findElements(By.xpath("//a[contains(@href, '/item/')]"));
 
         for (WebElement item : items) {
             String itemDescription = item.findElement(By.xpath(".//div[@class='l' or contains(@class, 'l ')]")).getText();
@@ -47,10 +47,10 @@ public class TestListAm extends BaseTestListAm {
             try {
                 label = item.findElement(By.xpath(".//div[@class='clabel']")).getText();
             } catch (NoSuchElementException e) {
-                throw new FilterError("There are not label in Element: %s".formatted(itemDescription));
+                throw new FilterError("There are not label in Element: <%s>".formatted(itemDescription));
             }
 
-            Assert.assertEquals(label, "Agency", "Label is not 'Agency' in Element: %s".formatted(itemDescription));
+            Assert.assertEquals(label, "Agency", "Label is not 'Agency' in Element: <%s>".formatted(itemDescription));
         }
 
     }
