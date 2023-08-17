@@ -8,15 +8,23 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Locale;
 
-public class BasePage {
+public abstract class BasePage {
     WebDriver driver;
-    final static String HOME_PAGE_URL = "https://www.list.am";
+    final static String BASE_PAGE_URL = "https://www.list.am";
+    protected String endPoint;
+
     String footerLink = "//div[@id='pfooter']//div[@class='r']/a[text()='%s']";
 
-    public BasePage(WebDriver driver) {
+    public BasePage(WebDriver driver, String endPoint) {
         this.driver = driver;
+        this.endPoint = endPoint;
+    }
+
+    public void open(String link) {
+        driver.get(link);
     }
 
     public WebDriverWait shortWait() {
@@ -39,15 +47,19 @@ public class BasePage {
         driver.findElement(By.xpath("//div[@id='lbar']//a[contains(@href, '%s')]".formatted(lang))).click();
     }
 
-    void openHelp() {
+    public void openPage() {
+        driver.get(BASE_PAGE_URL + endPoint);
+    }
+
+    public void openHelp() {
         driver.findElement(By.xpath(footerLink.formatted("Help"))).click();
     }
 
-    void openContactUs() {
+    public void openContactUs() {
         driver.findElement(By.xpath(footerLink.formatted("ContactUs"))).click();
     }
 
-    void openTermsOfService() {
+    public void openTermsOfService() {
         driver.findElement(By.xpath(footerLink.formatted("TermsOfService"))).click();
     }
 

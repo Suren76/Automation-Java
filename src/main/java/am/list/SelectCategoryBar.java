@@ -10,7 +10,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public interface SelectCategoryBar {
     WebDriverWait shortWait();
 
+    ResultPage selectCategory(String categoryMenu);
     ResultPage selectCategory(String categoryMenu, String subCategory);
+    ResultPage selectCategory(String categoryMenu, String subCategoryTitle,  String subCategory);
+
+    default ResultPage selectCategory(WebDriver driver, String categoryMenu) {
+        WebElement globalCategoryItem = driver.findElement(By.xpath("//div[@id='menu']/div/div/a[text()='%s']/..".formatted(categoryMenu)));
+
+        globalCategoryItem.click();
+        return new ResultPage(driver);
+    }
 
     default ResultPage selectCategory(WebDriver driver, String categoryMenu, String subCategory) {
         WebElement globalCategoryItem = driver.findElement(By.xpath("//div[@id='menu']/div/div/a[text()='%s']/..".formatted(categoryMenu)));
