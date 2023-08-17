@@ -11,8 +11,10 @@ public interface SelectCategoryBar {
     WebDriverWait shortWait();
 
     ResultPage selectCategory(String categoryMenu);
+
     ResultPage selectCategory(String categoryMenu, String subCategory);
-    ResultPage selectCategory(String categoryMenu, String subCategoryTitle,  String subCategory);
+
+    ResultPage selectCategory(String categoryMenu, String subCategoryTitle, String subCategory);
 
     default ResultPage selectCategory(WebDriver driver, String categoryMenu) {
         WebElement globalCategoryItem = driver.findElement(By.xpath("//div[@id='menu']/div/div/a[text()='%s']/..".formatted(categoryMenu)));
@@ -32,14 +34,14 @@ public interface SelectCategoryBar {
         return new ResultPage(driver);
     }
 
-    default ResultPage selectCategory(WebDriver driver, String categoryMenu, String subCategoryTitle,  String subCategory) {
+    default ResultPage selectCategory(WebDriver driver, String categoryMenu, String subCategoryTitle, String subCategory) {
         WebElement globalCategoryItem = driver.findElement(By.xpath("//div[@id='menu']/div/div/a[text()='%s']/..".formatted(categoryMenu)));
         new Actions(driver).moveToElement(globalCategoryItem).build().perform();
         WebElement subCategoryTitleToSelect = null;
 
         int index = 0;
 
-        for (WebElement item: globalCategoryItem.findElements(By.xpath(".//div[@class='pane']/b"))) {
+        for (WebElement item : globalCategoryItem.findElements(By.xpath(".//div[@class='pane']/b"))) {
             if (item.getText().equals(subCategoryTitle)) {
                 index = globalCategoryItem.findElements(By.xpath(".//div[@class='pane']/b")).indexOf(item);
                 subCategoryTitleToSelect = globalCategoryItem.findElements(By.xpath(".//div[@class='pane']/div")).get(index);
@@ -54,4 +56,4 @@ public interface SelectCategoryBar {
         return new ResultPage(driver);
     }
 
-    }
+}

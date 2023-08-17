@@ -41,7 +41,7 @@ public class HomePage extends BasePage implements SelectCategoryBar {
         return selectCategory(driver, categoryMenu, subCategoryTitle, subCategory);
     }
 
-    public void ifExistsChoose(String lang){
+    public void ifExistsChoose(String lang) {
         if (shortWait().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("dlgLangSel"))).size() == 1) {
             popUpLangChooseMenu(lang);
         }

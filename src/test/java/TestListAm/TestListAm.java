@@ -4,17 +4,9 @@ import am.list.HomePage;
 import am.list.Item;
 import am.list.ResultPage;
 import am.list.exceptions.FilterError;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
-
-import java.util.List;
-
-import static java.lang.Thread.sleep;
 
 public class TestListAm extends BaseTestListAm {
 
@@ -73,11 +65,11 @@ public class TestListAm extends BaseTestListAm {
             String location = item.location.getText().split(",")[0];
 
             int price = Integer.parseInt(String.join("", item.price.getText().split(" ")[0].split(",")));
-            String  priceCurrency = item.price.getText().split(" ")[1];
+            String priceCurrency = item.price.getText().split(" ")[1];
 
             softAssert.assertEquals(priceCurrency, "֏", message);
-            softAssert.assertTrue(200000<=price && price<=500000 , message);
-            softAssert.assertEquals(location,"Kentron" , message);
+            softAssert.assertTrue(200000 <= price && price <= 500000, message);
+            softAssert.assertEquals(location, "Kentron", message);
         }
 
         softAssert.assertAll();
