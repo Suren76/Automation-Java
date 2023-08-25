@@ -11,14 +11,14 @@ public class HomePage extends BasePage implements SelectCategoryBar {
 
 
     public HomePage(WebDriver driver) {
-        super(driver);
+        super(driver, "");
     }
 
-    public void open() {
-        driver.get(HOME_PAGE_URL);
+    public HomePage(WebDriver driver, String endPoint) {
+        super(driver, endPoint);
     }
 
-    public void popUpLangChoseMenu(String lang) {
+    private void popUpLangChooseMenu(String lang) {
         lang = lang.toLowerCase(Locale.ROOT).substring(0, 2);
         if (!(lang.equals("en") || lang.equals("ru") || lang.equals("am"))) {
             throw new InvalidInput("Invalid input: " + lang);
@@ -27,8 +27,24 @@ public class HomePage extends BasePage implements SelectCategoryBar {
     }
 
     @Override
+    public ResultPage selectCategory(String categoryMenu) {
+        return selectCategory(driver, categoryMenu);
+    }
+
+    @Override
     public ResultPage selectCategory(String categoryMenu, String subCategory) {
         return selectCategory(driver, categoryMenu, subCategory);
+    }
+
+    @Override
+    public ResultPage selectCategory(String categoryMenu, String subCategoryTitle, String subCategory) {
+        return selectCategory(driver, categoryMenu, subCategoryTitle, subCategory);
+    }
+
+    public void ifExistsChoose(String lang) {
+        if (shortWait().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("dlgLangSel"))).size() == 1) {
+            popUpLangChooseMenu(lang);
+        }
     }
 
 }
