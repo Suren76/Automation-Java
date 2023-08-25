@@ -11,14 +11,12 @@ import org.testng.annotations.BeforeSuite;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import static java.lang.Thread.sleep;
-
 public class BaseTest {
     public WebDriver driver;
 
     @BeforeSuite
     public void setup() {
-        WebDriverManager.chromedriver().browserVersion(getChromeVersion()).setup();
+        WebDriverManager.chromedriver().browserVersion("chrome%s".formatted(getChromeVersion())).setup();
     }
 
     @BeforeClass
@@ -27,8 +25,7 @@ public class BaseTest {
     }
 
     @AfterClass
-    public void afterTestEnds() throws InterruptedException {
-        sleep(2 * 1000);
+    public void afterTestEnds() {
         driver.close();
     }
 
