@@ -2,7 +2,6 @@ package BaseTest;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
@@ -11,17 +10,25 @@ import org.testng.annotations.BeforeSuite;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import static am.list.helper.DriverHelper.getDriver;
+
 public class BaseTest {
     public WebDriver driver;
 
     @BeforeSuite
     public void setup() {
-        WebDriverManager.chromedriver().browserVersion("chrome%s".formatted(getChromeVersion())).setup();
+        try {
+            WebDriverManager.chromedriver().setup();
+        } catch (Exception e) {
+            System.out.println("WebDriverManager.chromedriver().setup() failed");
+            System.out.println("Trying to setup WebDriverManager.chromedriver().browserVersion(\"chrome%s\")".formatted(getChromeVersion()));
+            WebDriverManager.chromedriver().browserVersion("chrome%s".formatted(getChromeVersion())).setup();
+        }
     }
 
     @BeforeClass
     public void configuringBeforeRun() {
-        driver = new ChromeDriver();
+        driver = getDriver();
     }
 
     @AfterClass

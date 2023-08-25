@@ -1,4 +1,4 @@
-package am.list;
+package am.list.pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

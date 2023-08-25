@@ -1,14 +1,16 @@
-package am.list;
+package am.list.pageobjects;
 
+import am.list.components.Item;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ResultPage extends BasePage implements SelectCategoryBar {
+public class ResultPage extends BasePage<ResultPage> implements SelectCategoryBar {
 
     String dropDownFieldXpath = "//div[@class='filter']//form//div[text()='%s' ]/following-sibling::div";
     By itemsXpath = By.xpath("//a[contains(@href, '/item/')]");
@@ -27,7 +29,11 @@ public class ResultPage extends BasePage implements SelectCategoryBar {
     }
 
     public List<Item> items() {
-        return Item.itemsList(driver.findElements(itemsXpath));
+        List<Item> itemsList = new ArrayList<>();
+        for (WebElement item : driver.findElements(itemsXpath)) {
+            itemsList.add(new Item(item));
+        }
+        return itemsList;
     }
 
     public void addDummyItem() {
@@ -80,10 +86,6 @@ public class ResultPage extends BasePage implements SelectCategoryBar {
         jsExecutor.executeScript("arguments[0].appendChild(item)", elem);
     }
 
-    private void waitTillPageLoads() {
-        shortWait().until(ExpectedConditions.presenceOfAllElementsLocatedBy(itemsXpath));
-    }
-
     @Override
     public ResultPage selectCategory(String categoryMenu) {
         return selectCategory(driver, categoryMenu);
@@ -102,7 +104,6 @@ public class ResultPage extends BasePage implements SelectCategoryBar {
     public void addFilterRadioButtonSelect(String fieldName) {
         WebElement checkboxFilterSection = driver.findElement(By.xpath("//div[@class='filter']//form/div[1]"));
         checkboxFilterSection.findElement(By.xpath(".//label[text()='%s']".formatted(fieldName))).click();
-        waitTillPageLoads();
     }
 
     public void addFilterInput(String fieldTitle, String fieldValueFrom, String fieldValueTo) {
@@ -112,7 +113,6 @@ public class ResultPage extends BasePage implements SelectCategoryBar {
         checkboxFilterSection.findElement(By.xpath(".//input[2]")).sendKeys(fieldValueTo);
 
         checkboxFilterSection.findElement(By.xpath(".//a")).click();
-        waitTillPageLoads();
     }
 
     public void addFilterInputDropdown(String fieldTitle, String fieldValueFrom, String fieldValueTo) {
@@ -123,7 +123,6 @@ public class ResultPage extends BasePage implements SelectCategoryBar {
 
         checkboxFilterSection.findElement(By.xpath(".//div[2]/div[contains(@class,'me')]")).click();
         checkboxFilterSection.findElement(By.xpath(".//div[2]/div[contains(@class,'l')]//div[text()='%s']".formatted(fieldValueFrom))).click();
-        waitTillPageLoads();
     }
 
     public void addFilterDropDownCheckbox(String fieldTitle, String[] fieldsName) {
@@ -134,8 +133,6 @@ public class ResultPage extends BasePage implements SelectCategoryBar {
             dropdownFilterSection.findElement(By.xpath(".//div[contains(@class,'l')]/div[text()='%s']".formatted(fieldName))).click();
         }
         dropdownFilterSection.findElement(By.xpath(".//div[contains(@class,'l')]//div[@class='bt']/div[1]")).click();
-
-        waitTillPageLoads();
     }
 
     public void addFilterDropDownSelect(String fieldTitle, String fieldName) {
@@ -143,8 +140,15 @@ public class ResultPage extends BasePage implements SelectCategoryBar {
 
         dropdownFilterSection.findElement(By.xpath(".//div[@class='me']")).click();
         dropdownFilterSection.findElement(By.xpath(".//div[contains(@class,'l')]/div[contains(text(),'%s')]".formatted(fieldName))).click();
-
-        waitTillPageLoads();
     }
 
+    @Override
+    protected void load() {
+
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+        assert driver.findElements(itemsXpath).size() > 0;
+    }
 }

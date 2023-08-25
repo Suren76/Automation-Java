@@ -1,16 +1,18 @@
-package am.list;
+package am.list.pageobjects;
 
 import am.list.exceptions.InvalidInput;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.LoadableComponent;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.Locale;
 
-public abstract class BasePage {
+public abstract class BasePage<T extends LoadableComponent<T>> extends LoadableComponent<T> {
+
     WebDriver driver;
     final static String BASE_PAGE_URL = "https://www.list.am";
     protected String endPoint;

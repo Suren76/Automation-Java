@@ -1,8 +1,8 @@
 package TestListAm;
 
-import am.list.HomePage;
-import am.list.Item;
-import am.list.ResultPage;
+import am.list.pageobjects.HomePage;
+import am.list.components.Item;
+import am.list.pageobjects.ResultPage;
 import am.list.exceptions.FilterError;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;

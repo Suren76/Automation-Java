@@ -1,4 +1,4 @@
-package am.list;
+package am.list.components;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -6,8 +6,7 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Item {
-    private WebElement elem;
+public class Item extends BaseComponent {
 
     public WebElement label;
     public WebElement image;
@@ -18,7 +17,7 @@ public class Item {
     public WebElement location;
 
 
-    Item(WebElement elem) {
+    public Item(WebElement elem) {
         setLabel(elem);
         setImage(elem);
         setPrice(elem);
@@ -63,11 +62,4 @@ public class Item {
         this.location = tmpElem.size() > 0 ? tmpElem.get(0) : null;
     }
 
-    static List<Item> itemsList(List<WebElement> elemList) {
-        List<Item> itemsList = new ArrayList<>();
-        for (WebElement item : elemList) {
-            itemsList.add(new Item(item));
-        }
-        return itemsList;
-    }
 }

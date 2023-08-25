@@ -1,4 +1,4 @@
-package am.list;
+package am.list.pageobjects;
 
 import am.list.exceptions.InvalidInput;
 import org.openqa.selenium.By;
@@ -7,8 +7,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.Locale;
 
-public class HomePage extends BasePage implements SelectCategoryBar {
+public class HomePage extends BasePage<HomePage> implements SelectCategoryBar {
 
+    By itemsXpath = By.xpath("//a[contains(@href, '/item/')]");
 
     public HomePage(WebDriver driver) {
         super(driver, "");
@@ -47,5 +48,15 @@ public class HomePage extends BasePage implements SelectCategoryBar {
         }
     }
 
+    @Override
+    protected void load() {
+        openPage();
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+        assert driver.getCurrentUrl().equals(BASE_PAGE_URL + endPoint);
+        assert driver.findElements(itemsXpath).size() > 0;
+    }
 }
 
