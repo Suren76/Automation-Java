@@ -1,65 +1,69 @@
 package am.list.components;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Item extends BaseComponent {
 
-    public WebElement label;
-    public WebElement image;
-    public WebElement price;
-    public List<WebElement> labels;
-    public WebElement viewed;
-    public WebElement description;
-    public WebElement location;
+    @FindBy(xpath = ".//div[@class='clabel']")
+    private WebElement label;
+
+    @FindBy(xpath = ".//img[@src='//s.list.am']")
+    private WebElement image;
+
+    @FindBy(xpath = ".//div[@class='p']")
+    private WebElement price;
+
+    @FindBy(xpath = ".//div[@class='lbls']/span")
+    private List<WebElement> labels;
+
+    @FindBy(xpath = ".//div[@class='rv']")
+    private WebElement viewed;
+
+    @FindBy(xpath = ".//div[@class='l' or contains(@class, 'l3')]")
+    private WebElement description;
+
+    @FindBy(xpath = ".//div[@class='at']")
+    private WebElement location;
 
 
     public Item(WebElement elem) {
-        setLabel(elem);
-        setImage(elem);
-        setPrice(elem);
-        setLabels(elem);
-        setViewed(elem);
-        setDescription(elem);
-        setLocation(elem);
+        super(elem);
     }
 
-    private void setLabel(WebElement elem) {
-        List<WebElement> tmpElem = elem.findElements(By.xpath(".//div[@class='clabel']"));
-        this.label = tmpElem.size() > 0 ? tmpElem.get(0) : null;
+    public String getLabel() {
+        return label.getText();
     }
 
-    private void setImage(WebElement elem) {
-        List<WebElement> tmpElem = elem.findElements(By.xpath(".//img[@src='//s.list.am']"));
-        this.image = tmpElem.size() > 0 ? tmpElem.get(0) : null;
+    public String getImage() {
+        return image.getText();
     }
 
-    private void setPrice(WebElement elem) {
-        List<WebElement> tmpElem = elem.findElements(By.xpath(".//div[@class='p']"));
-        this.price = tmpElem.size() > 0 ? tmpElem.get(0) : null;
+    public String getPrice() {
+        return price.getText();
     }
 
-    private void setLabels(WebElement elem) {
-        List<WebElement> tmpElem = elem.findElements(By.xpath(".//div[@class='lbls']/span"));
-        this.labels = tmpElem.size() > 0 ? tmpElem : null;
+    public List<String> getLabels() {
+        List<String> list = new ArrayList<>();
+        for (WebElement l: labels) {
+            list.add(l.getText());
+        }
+
+        return list;
     }
 
-    private void setViewed(WebElement elem) {
-        List<WebElement> tmpElem = elem.findElements(By.xpath(".//div[@class='rv']"));
-        this.viewed = tmpElem.size() > 0 ? tmpElem.get(0) : null;
+    public String getViewed() {
+        return viewed.getText();
     }
 
-    private void setDescription(WebElement elem) {
-        List<WebElement> tmpElem = elem.findElements(By.xpath(".//div[@class='l']"));
-        this.description = tmpElem.size() > 0 ? tmpElem.get(0) : null;
+    public String getDescription() {
+        return description.getText();
     }
 
-    private void setLocation(WebElement elem) {
-        List<WebElement> tmpElem = elem.findElements(By.xpath(".//div[@class='at']"));
-        this.location = tmpElem.size() > 0 ? tmpElem.get(0) : null;
+    public String getLocation() {
+        return location.getText();
     }
-
 }

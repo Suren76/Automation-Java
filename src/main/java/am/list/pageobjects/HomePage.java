@@ -2,6 +2,7 @@ package am.list.pageobjects;
 
 import am.list.exceptions.InvalidInput;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -12,11 +13,7 @@ public class HomePage extends BasePage<HomePage> implements SelectCategoryBar {
     By itemsXpath = By.xpath("//a[contains(@href, '/item/')]");
 
     public HomePage(WebDriver driver) {
-        super(driver, "");
-    }
-
-    public HomePage(WebDriver driver, String endPoint) {
-        super(driver, endPoint);
+        super(driver, "/");
     }
 
     private void popUpLangChooseMenu(String lang) {
@@ -42,21 +39,36 @@ public class HomePage extends BasePage<HomePage> implements SelectCategoryBar {
         return selectCategory(driver, categoryMenu, subCategoryTitle, subCategory);
     }
 
+    @Override
+    public void changeLanguage(String lang) {
+        super.changeLanguage(lang);
+    }
+
     public void ifExistsChoose(String lang) {
-        if (shortWait().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("dlgLangSel"))).size() == 1) {
-            popUpLangChooseMenu(lang);
+        try {
+            if (shortWait().until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("dlgLangSel"))).size() == 1) {
+                popUpLangChooseMenu(lang);
+            }
+        } catch (TimeoutException e) {
+            return;
         }
     }
 
     @Override
     protected void load() {
         openPage();
+        ifExistsChoose("en");
     }
 
     @Override
     protected void isLoaded() throws Error {
-        assert driver.getCurrentUrl().equals(BASE_PAGE_URL + endPoint);
-        assert driver.findElements(itemsXpath).size() > 0;
+        if (!(driver.getCurrentUrl().contains(BASE_PAGE_URL + endPoint))) {
+            throw new Error("The page is not loaded! \n context: {%s}".formatted(driver.getCurrentUrl() + ", " + BASE_PAGE_URL + endPoint));
+        }
+        if (!(driver.findElements(itemsXpath).size() > 0)) {
+            throw new Error("The page is not loaded!");
+        }
     }
+
 }
 

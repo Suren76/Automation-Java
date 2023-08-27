@@ -28,6 +28,7 @@ public class BaseTest {
 
     @BeforeClass
     public void configuringBeforeRun() {
+        // are ok to pass driver here?
         driver = getDriver();
     }
 

@@ -4,12 +4,15 @@ import am.list.exceptions.InvalidInput;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.LoadableComponent;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.Locale;
+
+import static am.list.helper.DriverHelper.getDriver;
 
 public abstract class BasePage<T extends LoadableComponent<T>> extends LoadableComponent<T> {
 
@@ -22,6 +25,9 @@ public abstract class BasePage<T extends LoadableComponent<T>> extends LoadableC
     public BasePage(WebDriver driver, String endPoint) {
         this.driver = driver;
         this.endPoint = endPoint;
+
+        // is the using of PageFactory.initElements() here wrong? And why?
+        PageFactory.initElements(driver, this);
     }
 
     public void open(String link) {
@@ -49,7 +55,7 @@ public abstract class BasePage<T extends LoadableComponent<T>> extends LoadableC
     }
 
     public void openPage() {
-        driver.get(BASE_PAGE_URL + endPoint);
+        getDriver().get(BASE_PAGE_URL + endPoint);
     }
 
     public void openHelp() {
