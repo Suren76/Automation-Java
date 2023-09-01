@@ -12,14 +12,11 @@ import java.time.Duration;
 
 public class SelectCategoryBar extends BaseComponent {
     private WebDriver driver;
+    private final String selectCategoryBarItemXpath = "//div[@id='menu']/div/div/a[text()='%s']/..";
 
-    public SelectCategoryBar(WebDriver driver, WebElement element) {
-        super(element);
-        this.driver = driver;
-    }
 
     public SelectCategoryBar(WebDriver driver) {
-        super(driver.findElement(By.xpath("div[@id='menu']/div/div")));
+        super(null);
         this.driver = driver;
     }
 
@@ -28,14 +25,14 @@ public class SelectCategoryBar extends BaseComponent {
     }
 
     public ResultPage selectCategory(String categoryMenu) {
-        WebElement globalCategoryItem = driver.findElement(By.xpath("./a[text()='%s']/..".formatted(categoryMenu)));
+        WebElement globalCategoryItem = driver.findElement(By.xpath(selectCategoryBarItemXpath.formatted(categoryMenu)));
 
         globalCategoryItem.click();
         return new ResultPage(driver);
     }
 
     public ResultPage selectCategory(String categoryMenu, String subCategory) {
-        WebElement globalCategoryItem = driver.findElement(By.xpath("./a[text()='%s']/..".formatted(categoryMenu)));
+        WebElement globalCategoryItem = driver.findElement(By.xpath(selectCategoryBarItemXpath.formatted(categoryMenu)));
         new Actions(driver).moveToElement(globalCategoryItem).build().perform();
 
         WebElement categoryToSelect = globalCategoryItem.findElement(By.xpath(".//a[text()='%s']".formatted(subCategory)));
@@ -46,7 +43,7 @@ public class SelectCategoryBar extends BaseComponent {
     }
 
     public ResultPage selectCategory(String categoryMenu, String subCategoryTitle, String subCategory) {
-        WebElement globalCategoryItem = driver.findElement(By.xpath("./a[text()='%s']/..".formatted(categoryMenu)));
+        WebElement globalCategoryItem = driver.findElement(By.xpath(selectCategoryBarItemXpath.formatted(categoryMenu)));
         new Actions(driver).moveToElement(globalCategoryItem).build().perform();
         WebElement subCategoryTitleToSelect = null;
 

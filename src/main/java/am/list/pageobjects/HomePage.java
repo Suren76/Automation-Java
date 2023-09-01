@@ -12,7 +12,7 @@ import java.util.Locale;
 public class HomePage extends BasePage<HomePage> {
 
     By itemsXpath = By.xpath("//a[contains(@href, '/item/')]");
-    SelectCategoryBar selectCategoryBar = new SelectCategoryBar(driver);
+    private SelectCategoryBar selectCategoryBar = new SelectCategoryBar(driver);
 
     public HomePage(WebDriver driver) {
         super(driver, "/");
