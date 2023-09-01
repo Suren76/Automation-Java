@@ -22,7 +22,7 @@ public class BaseTestListAm extends BaseTest {
         return true;
     }
 
-    @BeforeMethod
+//    @BeforeMethod
     public void beforeMethod() {
         driver.get("data:,");
     }

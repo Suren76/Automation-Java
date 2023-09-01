@@ -75,4 +75,8 @@ public class TestListAm extends BaseTestListAm {
         softAssert.assertAll();
 
     }
+
+    @Test
+    void test() {Assert.fail();}
+
 }

@@ -1,6 +1,7 @@
 package am.list.pageobjects;
 
 import am.list.components.Item;
+import am.list.components.SelectCategoryBar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -10,10 +11,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResultPage extends BasePage<ResultPage> implements SelectCategoryBar {
+public class ResultPage extends BasePage<ResultPage> {
 
     String dropDownFieldXpath = "//div[@class='filter']//form//div[text()='%s' ]/following-sibling::div";
     By itemsXpath = By.xpath("//a[contains(@href, '/item/')]");
+    SelectCategoryBar selectCategoryBar = new SelectCategoryBar(driver);
 
     public ResultPage(WebDriver driver) {
         super(driver, "");
@@ -91,19 +93,16 @@ public class ResultPage extends BasePage<ResultPage> implements SelectCategoryBa
         shortWait().until(ExpectedConditions.presenceOfAllElementsLocatedBy(itemsXpath));
     }
 
-    @Override
     public ResultPage selectCategory(String categoryMenu) {
-        return selectCategory(driver, categoryMenu);
+        return selectCategoryBar.selectCategory(categoryMenu);
     }
 
-    @Override
     public ResultPage selectCategory(String categoryMenu, String subCategory) {
-        return selectCategory(driver, categoryMenu, subCategory);
+        return selectCategoryBar.selectCategory(categoryMenu, subCategory);
     }
 
-    @Override
     public ResultPage selectCategory(String categoryMenu, String subCategoryTitle, String subCategory) {
-        return selectCategory(driver, categoryMenu, subCategoryTitle, subCategory);
+        return selectCategoryBar.selectCategory(categoryMenu, subCategoryTitle, subCategory);
     }
 
     public void addFilterRadioButtonSelect(String fieldName) {

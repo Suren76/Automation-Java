@@ -11,7 +11,6 @@ import org.testng.annotations.BeforeSuite;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import static am.list.helper.DriverHelper.getDriver;
 
 public class BaseTest {
     public WebDriver driver;

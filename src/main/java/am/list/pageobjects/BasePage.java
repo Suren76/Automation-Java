@@ -12,7 +12,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Locale;
 
-import static am.list.helper.DriverHelper.getDriver;
 
 public abstract class BasePage<T extends LoadableComponent<T>> extends LoadableComponent<T> {
 
@@ -55,7 +54,7 @@ public abstract class BasePage<T extends LoadableComponent<T>> extends LoadableC
     }
 
     public void openPage() {
-        getDriver().get(BASE_PAGE_URL + endPoint);
+        driver.get(BASE_PAGE_URL + endPoint);
     }
 
     public void openHelp() {

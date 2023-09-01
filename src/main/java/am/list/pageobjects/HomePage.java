@@ -1,5 +1,6 @@
 package am.list.pageobjects;
 
+import am.list.components.SelectCategoryBar;
 import am.list.exceptions.InvalidInput;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -8,9 +9,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.Locale;
 
-public class HomePage extends BasePage<HomePage> implements SelectCategoryBar {
+public class HomePage extends BasePage<HomePage> {
 
     By itemsXpath = By.xpath("//a[contains(@href, '/item/')]");
+    SelectCategoryBar selectCategoryBar = new SelectCategoryBar(driver);
 
     public HomePage(WebDriver driver) {
         super(driver, "/");
@@ -24,19 +26,16 @@ public class HomePage extends BasePage<HomePage> implements SelectCategoryBar {
         shortWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='dlgLangSel']//a[@href='/%s/']".formatted(lang)))).click();
     }
 
-    @Override
     public ResultPage selectCategory(String categoryMenu) {
-        return selectCategory(driver, categoryMenu);
+        return selectCategoryBar.selectCategory(categoryMenu);
     }
 
-    @Override
     public ResultPage selectCategory(String categoryMenu, String subCategory) {
-        return selectCategory(driver, categoryMenu, subCategory);
+        return selectCategoryBar.selectCategory(categoryMenu, subCategory);
     }
 
-    @Override
     public ResultPage selectCategory(String categoryMenu, String subCategoryTitle, String subCategory) {
-        return selectCategory(driver, categoryMenu, subCategoryTitle, subCategory);
+        return selectCategoryBar.selectCategory(categoryMenu, subCategoryTitle, subCategory);
     }
 
     @Override
