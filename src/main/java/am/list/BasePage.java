@@ -1,20 +1,16 @@
-package am.list.pageobjects;
+package am.list;
 
 import am.list.exceptions.InvalidInput;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.LoadableComponent;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.Locale;
 
-
-public abstract class BasePage<T extends LoadableComponent<T>> extends LoadableComponent<T> {
-
+public abstract class BasePage {
     WebDriver driver;
     final static String BASE_PAGE_URL = "https://www.list.am";
     protected String endPoint;
@@ -24,9 +20,6 @@ public abstract class BasePage<T extends LoadableComponent<T>> extends LoadableC
     public BasePage(WebDriver driver, String endPoint) {
         this.driver = driver;
         this.endPoint = endPoint;
-
-        // is the using of PageFactory.initElements() here wrong? And why?
-        PageFactory.initElements(driver, this);
     }
 
     public void open(String link) {
