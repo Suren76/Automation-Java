@@ -1,6 +1,5 @@
-package am.list.components;
+package am.list;
 
-import am.list.pageobjects.ResultPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,31 +7,24 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+public interface SelectCategoryBar {
+    WebDriverWait shortWait();
 
-public class SelectCategoryBar extends BaseComponent {
-    private WebDriver driver;
-    private final String selectCategoryBarItemXpath = "//div[@id='menu']/div/div/a[text()='%s']/..";
+    ResultPage selectCategory(String categoryMenu);
 
+    ResultPage selectCategory(String categoryMenu, String subCategory);
 
-    public SelectCategoryBar(WebDriver driver) {
-        super(null);
-        this.driver = driver;
-    }
+    ResultPage selectCategory(String categoryMenu, String subCategoryTitle, String subCategory);
 
-    public WebDriverWait shortWait() {
-        return new WebDriverWait(driver, Duration.ofSeconds(3));
-    }
-
-    public ResultPage selectCategory(String categoryMenu) {
-        WebElement globalCategoryItem = driver.findElement(By.xpath(selectCategoryBarItemXpath.formatted(categoryMenu)));
+    default ResultPage selectCategory(WebDriver driver, String categoryMenu) {
+        WebElement globalCategoryItem = driver.findElement(By.xpath("//div[@id='menu']/div/div/a[text()='%s']/..".formatted(categoryMenu)));
 
         globalCategoryItem.click();
         return new ResultPage(driver);
     }
 
-    public ResultPage selectCategory(String categoryMenu, String subCategory) {
-        WebElement globalCategoryItem = driver.findElement(By.xpath(selectCategoryBarItemXpath.formatted(categoryMenu)));
+    default ResultPage selectCategory(WebDriver driver, String categoryMenu, String subCategory) {
+        WebElement globalCategoryItem = driver.findElement(By.xpath("//div[@id='menu']/div/div/a[text()='%s']/..".formatted(categoryMenu)));
         new Actions(driver).moveToElement(globalCategoryItem).build().perform();
 
         WebElement categoryToSelect = globalCategoryItem.findElement(By.xpath(".//a[text()='%s']".formatted(subCategory)));
@@ -42,8 +34,8 @@ public class SelectCategoryBar extends BaseComponent {
         return new ResultPage(driver);
     }
 
-    public ResultPage selectCategory(String categoryMenu, String subCategoryTitle, String subCategory) {
-        WebElement globalCategoryItem = driver.findElement(By.xpath(selectCategoryBarItemXpath.formatted(categoryMenu)));
+    default ResultPage selectCategory(WebDriver driver, String categoryMenu, String subCategoryTitle, String subCategory) {
+        WebElement globalCategoryItem = driver.findElement(By.xpath("//div[@id='menu']/div/div/a[text()='%s']/..".formatted(categoryMenu)));
         new Actions(driver).moveToElement(globalCategoryItem).build().perform();
         WebElement subCategoryTitleToSelect = null;
 
@@ -63,4 +55,5 @@ public class SelectCategoryBar extends BaseComponent {
         categoryToSelect.click();
         return new ResultPage(driver);
     }
+
 }
