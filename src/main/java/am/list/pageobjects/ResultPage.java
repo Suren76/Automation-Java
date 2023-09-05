@@ -1,7 +1,7 @@
 package am.list.pageobjects;
 
 import am.list.components.Item;
-import am.list.components.SelectCategoryBar;
+import am.list.components.CategoryBar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -15,7 +15,6 @@ public class ResultPage extends BasePage<ResultPage> {
 
     String dropDownFieldXpath = "//div[@class='filter']//form//div[text()='%s' ]/following-sibling::div";
     By itemsXpath = By.xpath("//a[contains(@href, '/item/')]");
-    SelectCategoryBar selectCategoryBar = new SelectCategoryBar(driver);
 
     public ResultPage(WebDriver driver) {
         super(driver, "");
@@ -94,15 +93,15 @@ public class ResultPage extends BasePage<ResultPage> {
     }
 
     public ResultPage selectCategory(String categoryMenu) {
-        return selectCategoryBar.selectCategory(categoryMenu);
+        return new CategoryBar(driver).selectCategory(categoryMenu);
     }
 
     public ResultPage selectCategory(String categoryMenu, String subCategory) {
-        return selectCategoryBar.selectCategory(categoryMenu, subCategory);
+        return new CategoryBar(driver).selectCategory(categoryMenu, subCategory);
     }
 
     public ResultPage selectCategory(String categoryMenu, String subCategoryTitle, String subCategory) {
-        return selectCategoryBar.selectCategory(categoryMenu, subCategoryTitle, subCategory);
+        return new CategoryBar(driver).selectCategory(categoryMenu, subCategoryTitle, subCategory);
     }
 
     public void addFilterRadioButtonSelect(String fieldName) {
@@ -158,7 +157,6 @@ public class ResultPage extends BasePage<ResultPage> {
 
     @Override
     protected void isLoaded() throws Error {
-        System.out.println("ResultPage.isLoaded()");
         if (!(driver.findElements(itemsXpath).size() > 0)) {
             throw new Error("The page is not loaded!");
         }

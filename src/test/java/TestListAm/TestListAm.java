@@ -12,7 +12,8 @@ import org.testng.annotations.Test;
 
 public class TestListAm extends BaseTestListAm {
 
-    @Test
+//    @Test(groups = {"itrmChecktest", "hh"})
+    @Test(groups = {"hh1"})
     void testLastItemIsClickable() {
         HomePage homePage = new HomePage(driver).get();
         homePage.changeLanguage("eng");
@@ -22,7 +23,7 @@ public class TestListAm extends BaseTestListAm {
         Assert.assertTrue(isClickable(lastItem));
     }
 
-    @Test
+    @Test(groups = {"itrmChecktest", "filtetest"})
     void testCheckDummyItem() {
         HomePage homePage = new HomePage(driver).get();
 
@@ -49,7 +50,7 @@ public class TestListAm extends BaseTestListAm {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(groups = {"itrmChecktest", "filtetest"})
     void testCheckMultipleFilters() {
         HomePage homePage = new HomePage(driver).get();
 
@@ -62,10 +63,10 @@ public class TestListAm extends BaseTestListAm {
         for (Item item : resultPage.items()) {
             String message = "Label is not '%s' in Element: <%s>".formatted("%s", item.getDescription());
 
-            String location = item.getLocation().split(",")[0];
+            String location = item.getLocation()[0];
 
-            int price = Integer.parseInt(String.join("", item.getPrice().split(" ")[0].split(",")));
-            String priceCurrency = item.getPrice().split(" ")[1];
+            int price = item.getPrice();
+            String priceCurrency = item.getCurrency();
 
             softAssert.assertEquals(priceCurrency, "֏", message);
             softAssert.assertTrue(200000 <= price && price <= 500000, message);
@@ -79,4 +80,10 @@ public class TestListAm extends BaseTestListAm {
     @Test
     void test() {Assert.fail();}
 
+    @Test(groups = {"h1"})
+    void test1() {
+        System.out.println("test1");
+        System.out.println("test group run work correctly");
+        Assert.assertTrue(true);
+    }
 }

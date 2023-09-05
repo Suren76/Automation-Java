@@ -3,10 +3,7 @@ package BaseTest;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -26,14 +23,16 @@ public class BaseTest {
         }
     }
 
-    @BeforeClass
+    @BeforeClass()
     public void configuringBeforeRun() {
         driver = new ChromeDriver();
+        System.out.println("BeforeClass");
     }
 
     @AfterClass
     public void afterTestEnds() {
         driver.close();
+        System.out.println("AfterClass");
     }
 
     @AfterSuite
