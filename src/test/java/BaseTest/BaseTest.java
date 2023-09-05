@@ -29,6 +29,18 @@ public class BaseTest {
         System.out.println("BeforeClass");
     }
 
+    @BeforeGroups()
+    public void configuringBeforeRunGroup() {
+        driver = new ChromeDriver();
+        System.out.println("BeforeGroups");
+    }
+
+    @AfterGroups(alwaysRun = true)
+    public void afterTestGroupEnds() {
+        driver.close();
+        System.out.println("AfterGroups");
+    }
+
     @AfterClass
     public void afterTestEnds() {
         driver.close();
