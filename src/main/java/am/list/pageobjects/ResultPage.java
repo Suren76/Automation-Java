@@ -1,17 +1,21 @@
-package am.list;
+package am.list.pageobjects;
 
+import am.list.components.Item;
+import am.list.components.SelectCategoryBar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ResultPage extends BasePage implements SelectCategoryBar {
+public class ResultPage extends BasePage<ResultPage> {
 
     String dropDownFieldXpath = "//div[@class='filter']//form//div[text()='%s' ]/following-sibling::div";
     By itemsXpath = By.xpath("//a[contains(@href, '/item/')]");
+    SelectCategoryBar selectCategoryBar = new SelectCategoryBar(driver);
 
     public ResultPage(WebDriver driver) {
         super(driver, "");
@@ -27,7 +31,11 @@ public class ResultPage extends BasePage implements SelectCategoryBar {
     }
 
     public List<Item> items() {
-        return Item.itemsList(driver.findElements(itemsXpath));
+        List<Item> itemsList = new ArrayList<>();
+        for (WebElement item : driver.findElements(itemsXpath)) {
+            itemsList.add(new Item(item));
+        }
+        return itemsList;
     }
 
     public void addDummyItem() {
@@ -80,23 +88,21 @@ public class ResultPage extends BasePage implements SelectCategoryBar {
         jsExecutor.executeScript("arguments[0].appendChild(item)", elem);
     }
 
+    // ? why I need this method?
     private void waitTillPageLoads() {
         shortWait().until(ExpectedConditions.presenceOfAllElementsLocatedBy(itemsXpath));
     }
 
-    @Override
     public ResultPage selectCategory(String categoryMenu) {
-        return selectCategory(driver, categoryMenu);
+        return selectCategoryBar.selectCategory(categoryMenu);
     }
 
-    @Override
     public ResultPage selectCategory(String categoryMenu, String subCategory) {
-        return selectCategory(driver, categoryMenu, subCategory);
+        return selectCategoryBar.selectCategory(categoryMenu, subCategory);
     }
 
-    @Override
     public ResultPage selectCategory(String categoryMenu, String subCategoryTitle, String subCategory) {
-        return selectCategory(driver, categoryMenu, subCategoryTitle, subCategory);
+        return selectCategoryBar.selectCategory(categoryMenu, subCategoryTitle, subCategory);
     }
 
     public void addFilterRadioButtonSelect(String fieldName) {
@@ -134,7 +140,6 @@ public class ResultPage extends BasePage implements SelectCategoryBar {
             dropdownFilterSection.findElement(By.xpath(".//div[contains(@class,'l')]/div[text()='%s']".formatted(fieldName))).click();
         }
         dropdownFilterSection.findElement(By.xpath(".//div[contains(@class,'l')]//div[@class='bt']/div[1]")).click();
-
         waitTillPageLoads();
     }
 
@@ -143,8 +148,20 @@ public class ResultPage extends BasePage implements SelectCategoryBar {
 
         dropdownFilterSection.findElement(By.xpath(".//div[@class='me']")).click();
         dropdownFilterSection.findElement(By.xpath(".//div[contains(@class,'l')]/div[contains(text(),'%s')]".formatted(fieldName))).click();
-
         waitTillPageLoads();
+    }
+
+    @Override
+    protected void load() {
+        System.out.println("ResultPage.load()");
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+        System.out.println("ResultPage.isLoaded()");
+        if (!(driver.findElements(itemsXpath).size() > 0)) {
+            throw new Error("The page is not loaded!");
+        }
     }
 
 }

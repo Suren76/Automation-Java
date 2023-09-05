@@ -11,12 +11,19 @@ import org.testng.annotations.BeforeSuite;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+
 public class BaseTest {
     public WebDriver driver;
 
     @BeforeSuite
     public void setup() {
-        WebDriverManager.chromedriver().browserVersion("chrome%s".formatted(getChromeVersion())).setup();
+        try {
+            WebDriverManager.chromedriver().setup();
+        } catch (Exception e) {
+            System.out.println("WebDriverManager.chromedriver().setup() failed");
+            System.out.println("Trying to setup WebDriverManager.chromedriver().browserVersion(\"chrome%s\")".formatted(getChromeVersion()));
+            WebDriverManager.chromedriver().browserVersion("chrome%s".formatted(getChromeVersion())).setup();
+        }
     }
 
     @BeforeClass
