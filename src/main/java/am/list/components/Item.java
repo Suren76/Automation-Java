@@ -42,8 +42,12 @@ public class Item extends BaseComponent {
         return image.getText();
     }
 
-    public String getPrice() {
-        return price.getText();
+    public int getPrice() {
+        return Integer.parseInt(String.join("", price.getText().split(" ")[0].split(",")));
+    }
+
+    public String getCurrency() {
+        return price.getText().split(" ")[1];
     }
 
     public List<String> getLabels() {
@@ -63,7 +67,7 @@ public class Item extends BaseComponent {
         return description.getText();
     }
 
-    public String getLocation() {
-        return location.getText();
+    public String[] getLocation() {
+        return location.getText().split(",");
     }
 }

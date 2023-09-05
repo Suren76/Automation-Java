@@ -10,13 +10,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class SelectCategoryBar extends BaseComponent {
+public class CategoryBar {
     private WebDriver driver;
-    private final String selectCategoryBarItemXpath = "//div[@id='menu']/div/div/a[text()='%s']/..";
+    private final String selectCategoryBarItemXpath = "//div[@id='menu']/div//a[text()='%s']/..";
 
 
-    public SelectCategoryBar(WebDriver driver) {
-        super(null);
+    public CategoryBar(WebDriver driver) {
         this.driver = driver;
     }
 

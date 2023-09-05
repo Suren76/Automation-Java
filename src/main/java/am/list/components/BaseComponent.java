@@ -11,5 +11,4 @@ public class BaseComponent {
         superElement = element;
         PageFactory.initElements(superElement, this);
     }
-
 }
