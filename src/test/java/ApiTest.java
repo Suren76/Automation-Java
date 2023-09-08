@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.*;
 public class ApiTest {
     SoftAssert softAssert = new SoftAssert();
 
-    @Test
+    @Test(groups = {"apiTests"})
     public void testApiUsers() {
         System.out.println("ApiTest.testApi");
         List< Map<String, Object> > list = get("https://gorest.co.in/public/v2/users").as(new TypeRef< List< Map<String, Object> > >(){});
@@ -30,8 +30,8 @@ public class ApiTest {
         softAssert.assertAll();
     }
 
-    @Test
-    void testApiUser(){
+    @Test(groups = {"apiTests"})
+    void testApiUser() {
         System.out.println("ApiTest.testApiUser");
         Map<String, Object> map = get("https://gorest.co.in/public/v2/users/5114515").as(new TypeRef< Map<String, Object> >(){});
         Assert.assertEquals(map.get("id"), 5114515);
