@@ -2,6 +2,16 @@
 
 <suite name="Suite1" verbose="1" >
     <test name="TestListAm" >
+        <groups>
+            <define name="hh1">
+                <include name="hh1"/>
+            </define>
+
+            <run>
+                <include name="hh1"/>
+            </run>
+        </groups>
+
         <classes>
             <class name="TestListAm.TestListAm"/>
         </classes>

@@ -12,8 +12,7 @@ import org.testng.annotations.Test;
 
 public class TestListAm extends BaseTestListAm {
 
-//    @Test(groups = {"itrmChecktest", "hh"})
-    @Test(groups = {"hh1"})
+    @Test(groups = {"itrmChecktest"})
     void testLastItemIsClickable() {
         HomePage homePage = new HomePage(driver).get();
         homePage.changeLanguage("eng");
