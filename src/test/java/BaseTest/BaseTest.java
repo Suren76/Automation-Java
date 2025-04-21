@@ -23,13 +23,13 @@ public class BaseTest {
         }
     }
 
-    @BeforeClass()
+    @BeforeClass(alwaysRun = true)
     public void configuringBeforeRun() {
         driver = new ChromeDriver();
         System.out.println("BeforeClass");
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void afterTestEnds() {
         driver.close();
         System.out.println("AfterClass");
